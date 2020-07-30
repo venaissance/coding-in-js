@@ -32,9 +32,9 @@ function bind_3(asThis) {
   }
   function resultFn() {
     var args2 = slice.call(arguments, 0);
-    return fn.call(
+    return fn.apply(
       resultFn.prototype.isPrototypeOf(this) ? this : asThis,
-      args1.concat(args2)
+      args1.concat(args2),
     );
   }
   resultFn.prototype = fn.prototype;
