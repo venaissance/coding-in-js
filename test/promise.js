@@ -40,3 +40,37 @@ class Promise {
     this.callbacks.push(handle);
   }
 }
+
+function promiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    if (!Array.isArray(promises)) throw new Error("must accept Array");
+    let cnt = 0;
+    let resArr = new Array(promises.length);
+    for (let i = 0; i < promises.length; ++i) {
+      Promise.resolve(promises[i]).then(
+        (result) => {
+          cnt++;
+          resArr[i] = result;
+          if (cnt === promises.length) {
+            return resolve(resArr);
+          }
+        },
+        (reason) => {
+          return reject(reason);
+        },
+      );
+    }
+  });
+}
+
+const p1 = Promise.resolve(1);
+const p2 = Promise.reject(2);
+const p2 = Promise.resolve(2);
+promiseAll([p1, p2, p3]).then(
+  (result) => {
+    console.log(result);
+  },
+  (reason) => {
+    console.log(reason);
+  },
+);
