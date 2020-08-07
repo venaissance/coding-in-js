@@ -22,7 +22,7 @@ function bind_2(asThis) {
 
 // 高级：支持new
 // const a = new Fn.bind(newThis, args)()
-// new fn() 等价于：temp = {}, temp.__proto__ = fn.prototype, fn.call(temp, ...args), return temp
+// new fn() 等价于：temp = {}, temp.__proto__ = fn.prototype, fn.apply(temp, ...args), return temp
 function bind_3(asThis) {
   var slice = Array.prototype.slice;
   var args1 = slice.call(arguments, 1);
