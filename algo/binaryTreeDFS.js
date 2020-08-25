@@ -56,6 +56,7 @@ function iterative_dfs(root) {
     }
   }
 }
+
 iterative_dfs(tree);
 
 console.log(res);
@@ -69,7 +70,7 @@ var zigzagLevelOrder = function (root) {
   const res = [];
   const queue = [root];
   let i = 1;
-  while (queue.length > 0) {
+  while (queue.length) {
     let size = queue.length;
     const temp = [];
     i++;
