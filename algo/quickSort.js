@@ -12,7 +12,8 @@ function qSort(arr, begin, end) {
 }
 
 function partition(arr, begin, end) {
-  let pivot = end, counter = begin;
+  let pivot = end,
+    counter = begin;
   for (let i = begin; i < end; ++i) {
     if (arr[i] < arr[pivot]) {
       [arr[i], arr[counter]] = [arr[counter], arr[i]];
@@ -23,6 +24,5 @@ function partition(arr, begin, end) {
   return counter;
 }
 
-const a = [3, 4, 5, 1, 2]
-console.log(quickSort(a))
-
+const a = [3, 4, 5, 1, 2];
+console.log(quickSort(a));

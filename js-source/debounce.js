@@ -1,8 +1,8 @@
 function debounce(fn, delay) {
-  // 防抖就是等待一起做
+  // 到点一起上车
   let timeout;
   return function () {
-    if (timeout) window.clearTimeout();
+    if (timeout) window.clearTimeout(timeout);
     timeout = setTimeout(() => {
       fn.apply(this, arguments);
     }, delay);
@@ -16,13 +16,3 @@ debounced();
 window.scroll = debounce(() => {
   console.log("on");
 }, 1000);
-
-function debounce(fn, delay) {
-  let timeout;
-  return function () {
-    if (timeout) window.clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      fn.apply(this, arguments);
-    }, delay);
-  };
-}

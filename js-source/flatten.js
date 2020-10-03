@@ -1,7 +1,9 @@
 function flatten(arr) {
-  return arr.reduce((pre, curr) => {
-    return pre.concat(Array.isArray(curr) ? flatten(curr) : curr);
-  }, []);
+  return arr.reduce(
+    (pre, curr) =>
+      Array.isArray(curr) ? [...prev, ...flatten(curr)] : [...prev, curr],
+    [],
+  );
 }
 
 Array.prototype.myFlat = function (num = 1) {

@@ -32,6 +32,14 @@ function stackSort(stack) {
   }
   return assist;
 }
+const assist = [];
+while (stack.length) {
+  let tmp = stack.pop();
+  while (assist.length && assist[assist.length - 1] > tmp) {
+    stack.push(assist.pop())
+  }
+  assist.push(tmp)
+}
 
 function stackSort2(stack) {
   const assist = [];

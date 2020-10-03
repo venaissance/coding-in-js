@@ -1,3 +1,4 @@
+// 1. 手写Promise
 class Promise2 {
   state = "pending";
   callbacks = [];
@@ -58,7 +59,8 @@ function nextTick(fn) {
   }
 }
 
-function PromiseAll(promises) {
+// 2. 手写 promise.all
+Promise.all = function (promises) {
   let results = [];
   let len = promises.length;
   return new Promise((resolve, reject) => {
@@ -68,26 +70,8 @@ function PromiseAll(promises) {
           results[i] = res;
           if (++i === len) resolve(results);
         },
-        (err) => reject(err),
-      );
-    }
-  });
-}
-
-Promise.all = function (promises) {
-  return new Promise((resolve, reject) => {
-    let results = [];
-    let len = promises.length;
-    for (let i = 0; i < len; ++i) {
-      promises[i].then(
-        (res) => {
-          results[i] = res;
-          if (++i === len) {
-            resolve(results);
-          }
-        },
-        (reason) => {
-          reject(reason);
+        (err) => {
+          reject(err);
         },
       );
     }
@@ -104,6 +88,7 @@ const p6 = Promise.reject(6);
 
 Promise.all([p1, p2, p3]).then((i) => console.log(i));
 
+// 3. 手写Promise.race
 Promise.race = function (arr) {
   return new Promise((resolve, reject) => {
     for (let i = 0; i < arr.length; i++) {
@@ -115,3 +100,52 @@ Promise.race([p4, p5, p6]).then((data) => {
   // 谁快就是谁
   console.log(data); // 4
 });
+
+// 4. Promise 实现超时判断
+const uploadFile = (url, params) => {
+  return Promise.race([
+    uploadFilePromise(url, params),
+    uploadFileTimeout(3000),
+  ]);
+};
+function uploadFilePromise(url, params) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, params, {
+        // headers: {...}
+      })
+      .then((res) => {
+        if (res.statusCode === 200 && res.data.code === 0) {
+          resolve(res.data.result);
+        } else {
+          reject(res.data);
+        }
+      });
+  });
+}
+
+function uploadFileTimeout(delay) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject({ msg: "超时" });
+    }, delay);
+  });
+}
+
+
+// 4. 实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的 reject 
+
+Promise.retry = function(fn, num){
+  return new Promise(function(resolve, reject){
+     while(num){
+         try{
+                const res = await fn
+                resolve(res)
+                num = 0
+          } catch(e){
+                if(!num) reject(e)
+          }
+          num --
+      }
+  })
+}
