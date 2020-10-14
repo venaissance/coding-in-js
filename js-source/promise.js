@@ -132,20 +132,19 @@ function uploadFileTimeout(delay) {
   });
 }
 
+// 4. 实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的 reject
 
-// 4. 实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的 reject 
-
-Promise.retry = function(fn, num){
-  return new Promise(function(resolve, reject){
-     while(num){
-         try{
-                const res = await fn
-                resolve(res)
-                num = 0
-          } catch(e){
-                if(!num) reject(e)
-          }
-          num --
+Promise.retry = function (fn, num) {
+  return new Promise(async function (resolve, reject) {
+    while (num) {
+      try {
+        const res = await fn;
+        resolve(res);
+        num = 0;
+      } catch (e) {
+        if (!num) reject(e);
       }
-  })
-}
+      num--;
+    }
+  });
+};

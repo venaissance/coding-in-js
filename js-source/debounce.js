@@ -9,10 +9,6 @@ function debounce(fn, delay) {
   };
 }
 
-const debounced = debounce(() => console.log("hi"), 3000);
+const debounced = debounce(() => console.log("hi"), 3000); // 3秒后输出hi
 debounced();
 debounced();
-
-window.scroll = debounce(() => {
-  console.log("on");
-}, 1000);

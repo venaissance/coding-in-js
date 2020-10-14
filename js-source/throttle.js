@@ -11,7 +11,7 @@ function throttle(fn, delay) {
   };
 }
 
-function sayHi(e) {
+function outputSize(e) {
   console.log(e.target.innerWidth, e.target.innerHeight);
 }
-window.addEventListener("resize", throttle(sayHi, 500));
+window.addEventListener("resize", throttle(outputSize, 1000)); // 不管触发频率多高，只在一秒内执行一次

@@ -8,22 +8,17 @@ class EventHub {
     this.cache[eventName].forEach((fn) => fn());
   }
   off(eventName, fn) {
-    const index = indexOf(this.cache[eventName], fn);
+    const index = this.cache[eventName].indexOf(fn);
     if (index === -1) return;
     this.cache[eventName].splice(index, 1);
   }
-}
-
-function indexOf(arr, item) {
-  if (arr === undefined) return -1;
-  let index = -1;
-  for (let i = 0; i < arr.length; ++i) {
-    if (arr[i] === item) {
-      index = i;
-      break;
-    }
+  once(eventName, fn) {
+    const cb = (...args) => {
+      fn(args);
+      this.off(eventName, fn);
+    };
+    this.on(eventName, cb);
   }
-  return index;
 }
 
 // Test
