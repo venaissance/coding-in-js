@@ -92,7 +92,14 @@ Promise.all([p1, p2, p3]).then((i) => console.log(i));
 Promise.race = function (arr) {
   return new Promise((resolve, reject) => {
     for (let i = 0; i < arr.length; i++) {
-      arr[i].then(resolve, reject);
+      arr[i].then(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        },
+      );
     }
   });
 };
